@@ -1,0 +1,30 @@
+{
+  "name": "spreadsheet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "cross-env DEBUG=spreadsheet* DEBUG_DEPTH=10 NODE_ENV=dev nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "GabiO.",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^3.2.0",
+    "axios": "^0.20.0",
+    "blizzard.js": "^3.2.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "debug": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "mongodb": "^3.6.2",
+    "morgan": "^1.10.0",
+    "node-cache": "^5.1.2",
+    "nodemon": "^2.0.4",
+    "passport": "^0.4.1",
+    "passport-bnet": "^2.0.0"
+  }
+}
