@@ -7,7 +7,6 @@ function getTsmItemStats(itemId) {
 	return new Promise((resolve, reject) => {
 		const now = moment().valueOf();
 		global.db.collection('tsmItemStats').findOne({ItemId: itemId}).then((item) => {
-			debug(moment(item.timestamp).subtract(1, 'hours') < now)
 			if (_.isNil(item)) {
 				tsmApiRequestOptions = {
 					url: `http://api.tradeskillmaster.com/v1/item/${itemId}?format=json&apiKey=${process.env.TSM_KEY}`,
