@@ -22,7 +22,7 @@ function getTsmItemStats(itemId) {
 
 					resolve(response.data);
 				});
-			} else if (moment(item.timestamp).subtract(1, 'hours') < now) {
+			} else if (moment(now).subtract(1, 'hours') < item.timestamp) {
 				tsmApiRequestOptions = {
 					url: `http://api.tradeskillmaster.com/v1/item/${itemId}?format=json&apiKey=${process.env.TSM_KEY}`,
 					method: 'GET'

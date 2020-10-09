@@ -8,12 +8,12 @@ const blizzardController = require('./blizzard.controller');
 const retryTimeout = 5000;
 
 function getConnection() {
-	mongo.MongoClient.connect(`mongodb://${ config.db.host }:${ config.db.port }/${ config.db.name }`, {
+	mongo.MongoClient.connect(process.env.MONGO, {
 	  useUnifiedTopology: true,
 	  useNewUrlParser: true,
 	  poolSize: 50
 	}).then((client) => {
-		debug(`Client connected`);
+		debug(`Mongo Client connected`);
 		global.db = client.db('spreadsheet');
 
 		setInterval(() => {

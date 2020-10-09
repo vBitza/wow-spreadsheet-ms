@@ -35,7 +35,7 @@ function getAuctionHouseData(realmInfo) {
 };
 
 async function insertDataToMongo(auctions, realmInfo) {
-	mongo.MongoClient.connect(`mongodb://${ config.db.host }:${ config.db.port }/${ config.db.name }`, {
+	mongo.MongoClient.connect(process.env.MONGO, {
 	  useUnifiedTopology: true,
     useNewUrlParser: true,
     poolSize: 50 // Only 1 operation can run at a time
