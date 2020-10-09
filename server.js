@@ -13,7 +13,7 @@ const port             = process.env.PORT || config.port;
 
 const server = http.Server(app);
 
-debug('Starting server.');
+debug('Starting server-');
 
 // dbController.initConnection()
 // .then(() => {
