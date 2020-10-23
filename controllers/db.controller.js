@@ -18,10 +18,12 @@ function getConnection() {
 		global.db = client.db('spreadsheet');
 
 		setInterval(() => {
+			console.log('test')
 			let now = moment().format('h');
+			console.log(now)
 			global.db.collection('realmInfos').find({}).toArray().then((realms) => {
-				debug(realms);
-				debug('Checking realms');
+				console.log(realms);
+				console.log('Checking realms');
 				realms.map((realm) => {
 					if (Math.abs(moment(realm.timestamp).format('h') - moment().format('h')) !== 0) {
 						debug(`Queueing data update for ${realm.name}`);
