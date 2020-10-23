@@ -20,6 +20,8 @@ function getConnection() {
 		setInterval(() => {
 			let now = moment().format('h');
 			global.db.collection('realmInfos').find({}).toArray().then((realms) => {
+				debug(realms);
+				debug('Checking realms');
 				realms.map((realm) => {
 					if (Math.abs(moment(realm.timestamp).format('h') - moment().format('h')) !== 0) {
 						debug(`Queueing data update for ${realm.name}`);
