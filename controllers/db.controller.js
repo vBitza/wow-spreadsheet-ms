@@ -21,7 +21,7 @@ function getConnection() {
 			let now = moment().format('h');
 			global.db.collection('realmInfos').find({}).toArray().then((realms) => {
 				realms.map((realm) => {
-					if (Math.abs(realm.timestamp.format('h') - moment().format('h')) !== 0) {
+					if (Math.abs(moment(realm.timestamp).format('h') - moment().format('h')) !== 0) {
 						debug(`Queueing data update for ${realm.name}`);
 						blizzardController.getAuctionHouseData(realm);
 					}
