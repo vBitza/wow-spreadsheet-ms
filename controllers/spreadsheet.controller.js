@@ -25,7 +25,6 @@ async function getItemData(req, res) {
 	};
 
 	if (data.source === 'tsm') {
-		let item = await tsmController.getTsmItemStats(data.id);
 		jsonResponse(res, item);
 	} else {
 		let realmInfo = await global.db.collection('realmInfos').findOne({
@@ -52,8 +51,14 @@ async function getItemData(req, res) {
 					getItemData(req, res);
 				}, 5000);
 			} else {
+				let tsmItemData = await tsmController.getTsmItemStats(data.id);
+
 				global.db.collection(global.getCollectionName(realmInfo)).find({itemId: data.id}).toArray().then((auctions) => {
-					jsonResponse(res, auctions);
+					let ahPrices = auctions.map((auction) => auction.buyout ? auction.buyout : (auction.unit_price ? auction.unit_price : auction.bid));
+
+					
+
+					jsonResponse(res, {...tsmItemData, ahMinBuyout: _.min(ahPrices)});
 				}).catch((error) => {
 					console.log(error);
 				});
