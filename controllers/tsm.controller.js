@@ -15,11 +15,13 @@ function getTsmItemStats(itemId, region, realm) {
 				};
 
 				axios(tsmApiRequestOptions).then((response) => {
-					global.db.collection(`tsm-${realm}-${region}`).insertOne({
+					let item = {
 						...response.data,
 						timestamp: now.valueOf()
-					}).then((data) => {
-						resolve(response.data);
+					};
+
+					global.db.collection(`tsm-${realm}-${region}`).insertOne(item).then((data) => {
+						resolve(item);
 					});
 				});
 			} else if (moment.duration(now.diff(moment(item.timestamp))).asHours() >= 1) {
