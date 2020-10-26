@@ -56,9 +56,12 @@ async function getItemData(req, res) {
 				global.db.collection(global.getCollectionName(realmInfo)).find({itemId: data.id}).toArray().then((auctions) => {
 					let ahPrices = auctions.map((auction) => auction.buyout ? auction.buyout : (auction.unit_price ? auction.unit_price : auction.bid));
 
-					
-
-					jsonResponse(res, {...tsmItemData, ahMinBuyout: _.min(ahPrices)});
+					jsonResponse(res, {
+						...tsmItemData, 
+						ahMinBuyout: _.min(ahPrices), 
+						ahNrAuctions: ahPrices.length,
+						realmTime: realmInfo.timestamp
+					});
 				}).catch((error) => {
 					console.log(error);
 				});

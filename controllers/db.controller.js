@@ -9,6 +9,8 @@ const blizzardController = require('./blizzard.controller');
 const retryTimeout = 5000;
 
 function getConnection() {
+	let localDbUrl = `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`;
+
 	mongo.MongoClient.connect(process.env.MONGO, {
 	  useUnifiedTopology: true,
 	  useNewUrlParser: true,
@@ -18,14 +20,11 @@ function getConnection() {
 		global.db = client.db('spreadsheet');
 
 		setInterval(() => {
-			console.log('test')
-			let now = moment().format('h');
-			console.log(now)
+			let now = moment();
+
 			global.db.collection('realmInfos').find({}).toArray().then((realms) => {
-				console.log(realms);
-				console.log('Checking realms');
 				realms.map((realm) => {
-					if (Math.abs(moment(realm.timestamp).format('h') - moment().format('h')) !== 0) {
+					if (moment.duration(now.diff(moment(realm.timestamp))).asHours() >= 1) {
 						debug(`Queueing data update for ${realm.name}`);
 						blizzardController.getAuctionHouseData(realm);
 					}

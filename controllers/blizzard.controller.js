@@ -86,7 +86,7 @@ async function instantiateNewRealm(region, realmName) {
 			region,
 			id: realmId,
 			name: realmName,
-			lastUpdate: moment().valueOf(),
+			timestamp: moment().valueOf(),
 			dataUpdateInProgress: true,
 			newInstance: true
 		};
@@ -94,16 +94,6 @@ async function instantiateNewRealm(region, realmName) {
 		global.db.collection('realmInfos').insertOne(realm, (err, res) => {
 			getAuctionHouseData(realm);
 		});
-
-		// let realm = new RealmInfo({
-		// 	region,
-		// 	id: realmId,
-		// 	name: realmName,
-		// 	lastUpdate: moment().valueOf(),
-		// 	dataUpdateInProgress: true,
-		// }).save().then((realm) => {
-		// 	getAuctionHouseData(realm);
-		// });
 	});
 };
 
@@ -142,20 +132,6 @@ function queueDataUpdate(realmInfo) {
 
 		resolve(getAuctionHouseData(realmInfo));
 	});
-	// dataModel.find({}).lean().then(async(oldAuctions) => {
-	// 	await dataModel.deleteMany({$quantity: {$gte: 0}}).then((response) => {
-	// 		console.log('test');
-	// 	});
-
-	// 	await getAuctionHouseData(realmInfo);
-	// 	console.log(_.isArray(oldAuctions));
-
-
-
-	// 	dataModel.deleteMany(oldAuctions).then(() => {
-	// 		debug('Data succesfully updated');
-	// 	});
-	// });
 };
 
 exports.queueDataUpdate = queueDataUpdate;
