@@ -37,7 +37,7 @@ async function getItemData(req, res) {
 			newInstance: true
 		};
 
-		return jsonResponse(res, {RealmInfo});
+		return jsonResponse(res, RealmInfo);
 	} else {
 		if (realmInfo.newInstance && realmInfo.dataUpdateInProgress) {
 			return jsonResponse(res, realmInfo);
