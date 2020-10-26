@@ -3,40 +3,42 @@ const axios = require('axios');
 const moment = require('moment');
 const debug = require('./debug.controller')('tsm-controller');
 
-function getTsmItemStats(itemId) {
+function getTsmItemStats(itemId, region, realm) {
 	return new Promise((resolve, reject) => {
 		const now = moment().valueOf();
-		global.db.collection('tsmItemStats').findOne({ItemId: itemId}).then((item) => {
+		global.db.collection(`tsm-${realm}-${region}`).findOne({ItemId: itemId}).then((item) => {
+			lastUpdate = moment(item.timestamp);
+
 			if (_.isNil(item)) {
 				tsmApiRequestOptions = {
-					url: `http://api.tradeskillmaster.com/v1/item/${itemId}?format=json&apiKey=${process.env.TSM_KEY}`,
+					url: `http://api.tradeskillmaster.com/v1/item/${region}/${realm}/${itemId}?format=json&apiKey=${process.env.TSM_KEY}`,
 					method: 'GET'
 				};
 
 				axios(tsmApiRequestOptions).then((response) => {
-					global.db.collection('tsmItemStats').insertOne({
+					global.db.collection(`tsm-${realm}-${region}`).insertOne({
 						...response.data,
 						timestamp: now
 					});
 
 					resolve(response.data);
 				});
-			} else if (moment(now).subtract(1, 'hours') < item.timestamp) {
+			} else if (moment.duration(now.diff(lastUpdate)) > 0) {
 				tsmApiRequestOptions = {
-					url: `http://api.tradeskillmaster.com/v1/item/${itemId}?format=json&apiKey=${process.env.TSM_KEY}`,
+					url: `http://api.tradeskillmaster.com/v1/item/${region}/${realm}/${itemId}?format=json&apiKey=${process.env.TSM_KEY}`,
 					method: 'GET'
 				};
 
-				axios(tsmApiRequestOptions).then((response) => {
-					global.db.collection('tsmItemStats').updateOne({ItemId: itemId}, {
+				resolve(axios(tsmApiRequestOptions).then((response) => {
+					global.db.collection(`tsm-${realm}-${region}`).updateOne({ItemId: itemId}, {
 						$set: {
 							...response.data,
 							timestamp: now
 						}
 					});
 
-					resolve(response.data);
-				});
+					return response.data;
+				}));
 			} else {
 				resolve(item);
 			}

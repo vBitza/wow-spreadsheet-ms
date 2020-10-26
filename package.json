@@ -25,6 +25,7 @@
     "node-cache": "^5.1.2",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
-    "passport-bnet": "^2.0.0"
+    "passport-bnet": "^2.0.0",
+    "swagger-jsdoc": "^4.3.1"
   }
 }

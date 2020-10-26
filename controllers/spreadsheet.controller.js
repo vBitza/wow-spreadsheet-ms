@@ -51,7 +51,7 @@ async function getItemData(req, res) {
 					getItemData(req, res);
 				}, 5000);
 			} else {
-				let tsmItemData = await tsmController.getTsmItemStats(data.id);
+				let tsmItemData = await tsmController.getTsmItemStats(data.id, data.region, data.realm);
 
 				global.db.collection(global.getCollectionName(realmInfo)).find({itemId: data.id}).toArray().then((auctions) => {
 					let ahPrices = auctions.map((auction) => auction.buyout ? auction.buyout : (auction.unit_price ? auction.unit_price : auction.bid));
