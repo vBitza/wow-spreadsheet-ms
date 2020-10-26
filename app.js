@@ -36,10 +36,13 @@ app.use(bodyParser.urlencoded({
   limit: '100mb', extended: true
 }));
 
-//server static html
-app.use(express.static(path.join(__dirname, 'dist')));
-
 app.use(cors(corsOptions));
+
+//server static html
+app.use(express.static(__dirname + '/swagger'));
+
+// app.use(express.static(path.join(__dirname, 'dist')));
+
 
 routes(app);
 

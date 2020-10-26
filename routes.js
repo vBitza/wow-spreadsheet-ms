@@ -7,6 +7,10 @@ module.exports = function (app) {
 		res.send(200);
 	});
 	
+  app.get('/', (req, res) => {
+    res.sendFile(`${ __dirname }/swagger/index.html`);
+  });
+
   app.use('/api/v1/spreadsheet', SpreadsheetRoutes);
   app.use('/api/v1/blizzard', BlizzardRoutes);
 };

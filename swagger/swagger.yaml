@@ -1,0 +1,37 @@
+info:
+  title: Wow-Spreadsheet MS
+  version: v1
+  description: Wow-Spreadsheet MS
+basePath: /api/v1
+swagger: '2.0'
+paths:
+  /getItem:
+    get:
+      description: Get informations about an item
+      tags:
+        - Items
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: The id of the item
+          in: query
+          type: string
+        - name: region
+          description: The Region of the Server (Currently only supporting eu)
+          in: query
+          type: string
+        - name: realm
+          description: The Realm name
+          in: query
+          type: string
+      responses:
+        '200':
+          description: Returns information about an item
+          schema:
+            type: object
+definitions: {}
+responses: {}
+parameters: {}
+securityDefinitions: {}
+tags: []

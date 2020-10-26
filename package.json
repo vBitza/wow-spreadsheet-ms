@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "cross-env DEBUG=spreadsheet* DEBUG_DEPTH=10 NODE_ENV=dev nodemon",
+    "update-swagger": "npx swagger-jsdoc ./routes/*.js -d ./swagger-definitions.js -o swagger/swagger.yaml",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "GabiO.",
