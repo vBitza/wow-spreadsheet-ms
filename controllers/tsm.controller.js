@@ -7,8 +7,6 @@ function getTsmItemStats(itemId, region, realm) {
 	return new Promise((resolve, reject) => {
 		const now = moment().valueOf();
 		global.db.collection(`tsm-${realm}-${region}`).findOne({ItemId: itemId}).then((item) => {
-			lastUpdate = moment(item.timestamp);
-
 			if (_.isNil(item)) {
 				tsmApiRequestOptions = {
 					url: `http://api.tradeskillmaster.com/v1/item/${region}/${realm}/${itemId}?format=json&apiKey=${process.env.TSM_KEY}`,
@@ -23,7 +21,7 @@ function getTsmItemStats(itemId, region, realm) {
 
 					resolve(response.data);
 				});
-			} else if (moment.duration(now.diff(lastUpdate)) > 0) {
+			} else if (moment.duration(now.diff(moment(item.timestamp))) > 0) {
 				tsmApiRequestOptions = {
 					url: `http://api.tradeskillmaster.com/v1/item/${region}/${realm}/${itemId}?format=json&apiKey=${process.env.TSM_KEY}`,
 					method: 'GET'
